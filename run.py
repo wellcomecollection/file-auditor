@@ -144,7 +144,7 @@ def record_audit_for_path(path):
             size, sha256 = get_size_and_sha256(infile)
 
         mtime = os.stat(path).st_mtime
-        last_modified_time = datetime.datetime.fromtimestamp().isoformat()
+        last_modified_time = datetime.datetime.fromtimestamp(mtime).isoformat()
 
         writer.writerow(
             {
@@ -163,6 +163,7 @@ if __name__ == "__main__":
         sys.exit("Usage: %s <ROOT>" % __file__)
 
     for path in get_paths_to_audit(root=root):
+        print(path)
         try:
             if path.endswith(".zip"):
                 record_audit_for_zipfile_entries(path)
