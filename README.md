@@ -43,6 +43,8 @@ The output is a CSV with rows something like:
 We have an on-premise file share, from which some of the files have been uploaded to S3 and our [cloud storage service] -- but not all of them.
 This script will allow us to match files in the share to files in the storage service, and determine what can be safely deleted from the on-premise share.
 
+(This repo only contains the code for creating a list of files, not matching them to the storage service.)
+
 [cloud storage service]: https://github.com/wellcomecollection/storage-service
 
 
