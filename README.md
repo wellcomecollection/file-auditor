@@ -1,4 +1,4 @@
-# file_auditor
+# file-auditor
 
 This is a script for auditing the files in a directory.
 
