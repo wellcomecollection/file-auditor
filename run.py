@@ -7,14 +7,13 @@ import datetime
 import errno
 import hashlib
 import os
+import sys
 import traceback
 import zipfile
 
 
-V_DRIVE_ROOT = "/Volumes/Shares/LIB_WDL_Digital/WDL_Born_digital"
-
-AUDIT_CSV_PATH = "v_drive_audit.csv"
-AUDIT_ZIPFILES_CSV_PATH = "v_drive_audit_zipfiles.csv"
+AUDIT_CSV_PATH = "audit.csv"
+AUDIT_ZIPFILES_CSV_PATH = "audit_with_zipfile_entries.csv"
 
 AUDIT_CSV_FIELDNAMES = ["path", "size", "last_modified_time", "sha256"]
 AUDIT_ZIPFILES_CSV_FIELDNAMES = ["path", "entry_filename", "size", "sha256"]
@@ -137,7 +136,6 @@ def record_audit_for_path(path):
     Record audit information for a single file.
     """
     with open(AUDIT_CSV_PATH, "a") as outfile:
-        assert 0
         writer = csv.DictWriter(outfile, fieldnames=AUDIT_CSV_FIELDNAMES)
 
         stat = os.stat(path)
@@ -159,7 +157,12 @@ def record_audit_for_path(path):
 
 
 if __name__ == "__main__":
-    for path in get_paths_to_audit(root=V_DRIVE_ROOT):
+    try:
+        root = sys.argv[1]
+    except IndexError:
+        sys.exit("Usage: %s <ROOT>" % __file__)
+
+    for path in get_paths_to_audit(root=root):
         try:
             if path.endswith(".zip"):
                 record_audit_for_zipfile_entries(path)
